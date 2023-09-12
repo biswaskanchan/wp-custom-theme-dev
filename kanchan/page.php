@@ -28,14 +28,37 @@ while(have_posts())
     <?php }
     
     ?>
-
-      <div class="page-links">
-        <h2 class="page-links__title"><a href="#"><?php the_title()?></a></h2>
+      <?php 
+        $testArry = get_pages(
+          array( 
+            'child_of' => get_the_ID(  )
+          )
+          );
+      if($showItem or $testArry){ ?>
+        <div class="page-links">
+        <h2 class="page-links__title"><a href="<?php echo get_permalink( $showItem ) ?>"><?php echo  get_the_title($showItem)?></a></h2>
         <ul class="min-list">
-          <li class="current_page_item"><a href="#">Our History</a></li>
-          <li><a href="#">Our Goals</a></li>
-        </ul>
-      </div>
+          <?php 
+
+              if($showItem){
+                $findChildrenOf = $showItem;
+              } else {
+                $findChildrenOf = get_the_ID() ;
+              }
+
+              wp_list_pages(array(
+                'title_li' => null,
+                'child_of' => $findChildrenOf,
+                'short_column' => 'menu_order'
+              ));
+          ?>
+            </ul>
+          </div>
+      <?php
+
+      }
+      
+      ?>
        
       <div class="generic-content">
        <P><?php the_content() ?></P>
